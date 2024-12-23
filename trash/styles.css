@@ -1,0 +1,43 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.navbar, .footer {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    padding: 15px 30px;
+}
+.navbar .brand, .navbar .nav-button, .footer a {
+    color: #e0e0e0;
+}
+.navbar .brand:hover, .navbar .nav-button:hover, .footer a:hover {
+    color: #4682B4;
+}
+.main-container {
+    width: 70%;
+    background-color: #e0e0e0;
+    padding: 160px 30px;
+    text-align: left;
+    margin-left: 0;
+    position: relative;
+    color: #121212;
+    flex-grow: 1;
+}
+.features-container, .knowledge-container {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    padding: 40px;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+}
+.footer {
+    text-align: center;
+    font-size: 0.9em;
+}
