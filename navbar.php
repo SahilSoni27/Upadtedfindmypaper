@@ -3,6 +3,14 @@ include 'auth_check.php';
 session_start();
 include 'db_connection.php';  // Include the database connection
 
+// Check if the user is logged in
+if (!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']) {
+    header("Location: login_signup.html");
+    exit;
+}
+
+// Get the current user's email
+$userEmail = $_SESSION['user_email'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +31,7 @@ include 'db_connection.php';  // Include the database connection
         <div class="separator"></div>
 
         <!-- College Dropdown -->
-        <select id="college" name="college" onchange="updateSession()">
+        <select id="college" name="college" onchange="fetchBranchesAndUpdateSession()">
             <option value="">Select College</option>
             <?php
             $query = "SELECT DISTINCT college FROM papers";
@@ -37,14 +45,16 @@ include 'db_connection.php';  // Include the database connection
         <div class="separator"></div>
 
         <!-- Branch Dropdown -->
-        <select id="branch" name="branch" onchange="updateSession()">
+        <select id="branch" name="branch" onchange="fetchPresentYearsAndUpdateSession()">
             <option value="">Select Branch</option>
             <?php
-            $query = "SELECT DISTINCT branch FROM papers";
-            $branches = $conn->query($query);
-            while ($row = $branches->fetch_assoc()) {
-                $selected = isset($_SESSION['branch']) && $_SESSION['branch'] == $row['branch'] ? 'selected' : '';
-                echo "<option value='{$row['branch']}' $selected>{$row['branch']}</option>";
+            if (isset($_SESSION['college'])) {
+                $query = "SELECT DISTINCT branch FROM papers WHERE college = '{$_SESSION['college']}'";
+                $branches = $conn->query($query);
+                while ($row = $branches->fetch_assoc()) {
+                    $selected = isset($_SESSION['branch']) && $_SESSION['branch'] == $row['branch'] ? 'selected' : '';
+                    echo "<option value='{$row['branch']}' $selected>{$row['branch']}</option>";
+                }
             }
             ?>
         </select>
@@ -52,31 +62,29 @@ include 'db_connection.php';  // Include the database connection
 
         <!-- Year Dropdown -->
         <select id="present_year" name="present_year" onchange="updateSession()">
-            <option value="">Select Year</option>
+            <option value="">Select Sem</option>
             <?php
-            $query = "SELECT DISTINCT present_year FROM papers";
-            $years = $conn->query($query);
-            while ($row = $years->fetch_assoc()) {
-                $selected = isset($_SESSION['present_year']) && $_SESSION['present_year'] == $row['present_year'] ? 'selected' : '';
-                echo "<option value='{$row['present_year']}' $selected>{$row['present_year']}</option>";
+            if (isset($_SESSION['college']) && isset($_SESSION['branch'])) {
+                $query = "SELECT DISTINCT present_year FROM papers WHERE college = '{$_SESSION['college']}' AND branch = '{$_SESSION['branch']}'";
+                $years = $conn->query($query);
+                while ($row = $years->fetch_assoc()) {
+                    $selected = isset($_SESSION['present_year']) && $_SESSION['present_year'] == $row['present_year'] ? 'selected' : '';
+                    echo "<option value='{$row['present_year']}' $selected>{$row['present_year']}</option>";
+                }
             }
             ?>
         </select>
+
     </div>
 
     <!-- Profile and Location Icons -->
     <div class="icons">
-        <div class="location-container" onclick="alert('Location clicked!')">
-            <div class="location-icon"><i class="fas fa-map-marker-alt"></i></div> <!-- Font Awesome location icon -->
-            <div class="location-text">Location</div> <!-- Location text -->
-        </div>
         <div class="profile-icon" onclick="toggleDropdown()">
-            <img src="assests\images\profileicon.png" alt="Profile Icon" class="rounded-circle" width="30" height="30">
+            <img src="assests/images/profileicon.png" alt="Profile Icon" class="rounded-circle" width="30" height="30">
             <div class="profile-dropdown" id="profileDropdown">
-                <a href="#">Profile</a>
-                <a href="#">My Purchases</a>
+                <a href="profile.php">Profile</a>
                 <div class="dropdown-divider"></div>
-                <a href="#">Logout</a>
+                <a href="logout.php">Logout</a>
             </div>
         </div>
     </div>
@@ -86,11 +94,10 @@ include 'db_connection.php';  // Include the database connection
 <div class="sidebar" id="sidebar">
     <h3>Menu</h3>
     <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Notes</a></li>
-        <li><a href="#">Previous Papers</a></li>
-        <li><a href="#">Resources</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="home.php">Home</a></li>
+        <li><a href="index.php">Previous Papers</a></li>
+        <li><a href="notes.php">Notes</a></li>
+        <li><a href="contactus.php">Contact Us</a></li>
     </ul>
 </div>
 
@@ -102,12 +109,53 @@ include 'db_connection.php';  // Include the database connection
     }
 
     // Function to toggle profile dropdown
-    function toggleDropdown() {
+    function toggleDropdown(event) {
+        // event.stopPropagation(); // Prevent the event from bubbling up to the window onclick
         const dropdown = document.getElementById('profileDropdown');
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
 
-    // Function to update session via AJAX and refresh the page
+    function fetchBranchesAndUpdateSession() {
+        const college = document.getElementById('college').value;
+
+        if (college) {
+            fetch(`fetch_dynamic_options.php?college=${college}`)
+                .then(response => response.json())
+                .then(data => {
+                    const branchDropdown = document.getElementById('branch');
+                    branchDropdown.innerHTML = `<option value="">Select Branch</option>`;
+                    data.branches.forEach(branch => {
+                        branchDropdown.innerHTML += `<option value="${branch}">${branch}</option>`;
+                    });
+
+                    updateSession(); // Update session for college
+                    // Clear present_year dropdown since it's dependent on branch
+                    document.getElementById('present_year').innerHTML = `<option value="">Select Sem</option>`;
+                })
+                .catch(error => console.error('Error fetching branches:', error));
+        }
+    }
+
+    function fetchPresentYearsAndUpdateSession() {
+        const college = document.getElementById('college').value;
+        const branch = document.getElementById('branch').value;
+
+        if (college && branch) {
+            fetch(`fetch_dynamic_options.php?college=${college}&branch=${branch}`)
+                .then(response => response.json())
+                .then(data => {
+                    const yearDropdown = document.getElementById('present_year');
+                    yearDropdown.innerHTML = `<option value="">Select Sem</option>`;
+                    data.present_years.forEach(year => {
+                        yearDropdown.innerHTML += `<option value="${year}">${year}</option>`;
+                    });
+
+                    updateSession(); // Update session for branch
+                })
+                .catch(error => console.error('Error fetching present years:', error));
+        }
+    }
+
     function updateSession() {
         const college = document.getElementById('college').value;
         const branch = document.getElementById('branch').value;
@@ -134,10 +182,39 @@ include 'db_connection.php';  // Include the database connection
         });
     }
 
+
+
+    // // Function to update session via AJAX and refresh the page
+    // function updateSession() {
+    //     const college = document.getElementById('college').value;
+    //     const branch = document.getElementById('branch').value;
+    //     const presentYear = document.getElementById('present_year').value;
+
+    //     const formData = new FormData();
+    //     formData.append('college', college);
+    //     formData.append('branch', branch);
+    //     formData.append('present_year', presentYear);
+
+    //     fetch('update_session.php', {
+    //         method: 'POST',
+    //         body: formData
+    //     })
+    //     .then(response => response.text())
+    //     .then(data => {
+    //         console.log(data); // Optionally handle the server's response
+
+    //         // Reload the page after updating the session to retain the selected values
+    //         location.reload();
+    //     })
+    //     .catch(error => {
+    //         console.error('Error updating session:', error);
+    //     });
+    // }
+
     // Close dropdown if clicked outside
     window.onclick = function(event) {
         const dropdown = document.getElementById('profileDropdown');
-        if (!event.target.matches('.profile-icon') && !event.target.matches('.profile-dropdown')) {
+        if (!event.target.closest('.profile-icon')) {
             dropdown.style.display = 'none';
         }
     };
