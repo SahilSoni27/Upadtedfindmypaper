@@ -13,6 +13,9 @@
             <button id="signupTab" onclick="showSignup()">New account</button>
         </div>
 
+        <!-- Display Error or Success Message -->
+        <div id="messageContainer"></div>
+
         <!-- Login Form -->
         <div id="loginForm">
             <h2>Login</h2>
@@ -60,6 +63,22 @@
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('signupTab').classList.add('active-tab');
             document.getElementById('loginTab').classList.remove('active-tab');
+        }
+
+        // Function to display message from URL parameters
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const message = urlParams.get('message');
+            const messageContainer = document.getElementById('messageContainer');
+
+            if (error) {
+                messageContainer.innerHTML = `<div style="color: red;">${error}</div>`;
+            }
+
+            if (message) {
+                messageContainer.innerHTML = `<div style="color: green;">${message}</div>`;
+            }
         }
     </script>
 </body>

@@ -20,24 +20,12 @@ body {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1000;
-    flex-wrap: wrap;
 }
-
 .navbar .left-section {
     display: flex;
     align-items: center;
     padding-right: 20px;
-    flex-wrap: wrap;
-    gap: 10px;
 }
-
-.navbar .icons {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    justify-content: flex-end;
-}
-
 .navbar .brand {
     font-size: 1.5em;
     font-weight: bold;
@@ -50,13 +38,11 @@ body {
     cursor: pointer;
     margin-right: 15px;
 }
-
 .navbar .separator {
     border-left: 1px solid #ddd;
     height: 30px;
     margin: 0 8px;
 }
-
 .navbar .cs-button {
     font-size: 1em;
     font-weight: bold;
@@ -74,26 +60,29 @@ body {
 }
 
 /* Profile and location icon */
-
-
+.navbar .icons {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Increased space between the icons */
+}
 .location-container {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 5px; /* Space between icon and text */
     cursor: pointer;
 }
 .location-icon {
-    font-size: 1.6em;
-    color: #333;
+    font-size: 1.6em; /* Adjust the icon size */
+    color: #333; /* Dark color for the icon */
     transition: transform 0.3s ease;
 }
 .location-icon:hover {
-    transform: scale(1.2);
+    transform: scale(1.2); /* Adds hover effect only on icon */
 }
 .location-text {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: #333;
+    font-size: 1.1em; /* Slightly larger text */
+    font-weight: 600; /* Bold weight for emphasis */
+    color: #333; /* Dark color for text */
     letter-spacing: 1px;
 }
 
@@ -165,79 +154,4 @@ body {
 }
 .sidebar ul li a:hover {
     color: #4682B4;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px;
-    }
-
-    .navbar .left-section {
-        width: 100%;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .navbar .brand {
-        margin-bottom: 10px;
-    }
-
-    .navbar .separator {
-        display: none;
-    }
-
-    .navbar .menu-icon {
-        display: block;
-        margin-top: 10px;
-    }
-
-    .navbar select {
-        width: 100%;
-        margin-top: 5px;
-    }
-
-    .navbar .icons {
-        justify-content: center;
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    .profile-dropdown {
-        position: static;
-        width: 100%;
-    }
-
-    .sidebar {
-        width: 200px;
-    }
-
-    .sidebar.open {
-        left: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .navbar {
-        padding: 5px;
-    }
-
-    .navbar .brand {
-        font-size: 1.2em;
-    }
-
-    .navbar .menu-icon {
-        font-size: 1.2em;
-        margin-right: 10px;
-    }
-
-    .navbar .icons {
-        gap: 10px;
-    }
-
-    .navbar select {
-        margin-top: 2px;
-    }
 }
