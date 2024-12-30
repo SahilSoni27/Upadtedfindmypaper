@@ -1,0 +1,145 @@
+/* profile.css */
+
+/* Reset and General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6; /* Neutral background for modern design */
+    color: #333; /* Standard text color */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Navbar Styling */
+.navbar {
+    background: #ffffff;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    position: sticky;
+    top: 0;
+    width: 100%;
+}
+
+/* Profile Container Styling */
+.profile-container {
+    flex: 1;
+    width: 90%; /* Occupy 90% of the viewport width */
+    max-width: 1200px; /* Limit the maximum width for large screens */
+    margin: 30px auto; /* Center alignment */
+    padding: 20px 30px; /* Generous padding for spaciousness */
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h1 {
+    font-size: 2.5rem;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.profile-container p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #666;
+    text-align: left; /* Align text to the left for readability */
+}
+
+/* Footer Styling */
+footer {
+    background-color: #222;
+    color: #ccc;
+    padding: 15px 20px;
+    text-align: center;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+footer a {
+    color: #ff9800;
+    text-decoration: none;
+    margin: 0 8px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        width: 95%; /* Adjust width for smaller screens */
+        padding: 15px 20px;
+    }
+
+    .profile-container h1 {
+        font-size: 2rem;
+    }
+
+    .profile-container p {
+        font-size: 1rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+}
+
+/* Styling for the profile-container */
+.profile-container {
+    flex: 1;
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h1 {
+    font-size: 2.5rem;
+    color: #444;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.profile-container p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #666;
+    text-align: left;
+}
+
+.welcome-message {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #888; /* Subtle color for the message */
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.8;
+    word-spacing: 2px;
+}
+
+.welcome-message span {
+    font-weight: bold;
+    color: #333; /* Highlight for "FindMyPaper" */
+}
+
