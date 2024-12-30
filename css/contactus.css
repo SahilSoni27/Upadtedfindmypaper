@@ -1,0 +1,133 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6; /* Neutral light background */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Contact Container Styling */
+.contact-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px 40px;
+    background: #ffffff; /* Matches the white container background */
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center;
+}
+
+.contact-container h1 {
+    font-size: 2.5rem;
+    color: #444; /* Slightly darker text for heading */
+    margin-bottom: 20px;
+}
+
+.contact-container .description {
+    font-size: 1.2rem;
+    color: #666; /* Subtle gray for the description */
+    margin-bottom: 20px;
+}
+
+.contact-container .email {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333; /* Standard text color */
+}
+
+.contact-container .email a {
+    color: #444; /* Consistent with your theme's orange */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-container .email a:hover {
+    color: #007bff; /* Hover effect */
+}
+
+.contact-container .contact-links {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-container .contact-links li {
+    margin: 10px 0;
+}
+
+.contact-container .contact-links a {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #444; /* Matches theme */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-container .contact-links a:hover {
+    color: #007bff; /* Subtle dark hover effect */
+}
+
+/* Footer Styling */
+footer {
+    background-color: #222;
+    color: #ccc;
+    padding: 15px 20px;
+    text-align: center;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+footer a {
+   
+    text-decoration: none;
+    margin: 0 8px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-container {
+        padding: 20px 30px;
+    }
+
+    .contact-container h1 {
+        font-size: 2rem;
+    }
+
+    .contact-container .description {
+        font-size: 1rem;
+    }
+
+    .contact-container .email {
+        font-size: 1.1rem;
+    }
+
+    .contact-container .contact-links a {
+        font-size: 1rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+}

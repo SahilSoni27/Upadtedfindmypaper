@@ -58,7 +58,7 @@
 
             // Validate inputs
             if (!year || !semester) {
-                alert("Please select both year and semester.");
+                // alert("Please select both year and semester.");
                 return;
             }
 
