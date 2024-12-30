@@ -12,20 +12,20 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f7faff;
+    background-color: #f3f4f6; /* Neutral background color */
 }
 
 .form-container {
     width: 360px;
     padding: 30px;
     background-color: #ffffff;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
     border-radius: 10px;
     transition: transform 0.3s ease;
 }
 
 .form-container:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* Subtle hover effect */
 }
 
 .form-header {
@@ -43,30 +43,30 @@ body {
     font-weight: 600;
     padding: 10px;
     cursor: pointer;
-    color: #888;
+    color: #666; /* Subtle gray for inactive tabs */
     transition: color 0.3s, font-weight 0.3s;
 }
 
 .form-header .active-tab {
     font-weight: bold;
-    color: #007b8f;
-    border-bottom: 2px solid #007b8f;
+    color: #007bff; /* Highlighted active tab */
+    border-bottom: 2px solid #007bff;
 }
 
 .form-header button:hover, .form-header button:focus {
-    color: #007b8f;
+    color: #007bff; /* Orange hover effect for tabs */
 }
 
 h2 {
     font-size: 24px;
-    color: #333;
+    color: #444;
     margin-bottom: 15px;
     text-align: center;
 }
 
 label {
     font-size: 14px;
-    color: #444;
+    color: #555; /* Neutral gray for labels */
     margin-top: 10px;
     display: block;
 }
@@ -83,7 +83,7 @@ input[type="email"], input[type="password"] {
 }
 
 input[type="email"]:focus, input[type="password"]:focus {
-    border-color: #007b8f;
+    border-color: #007bff; /* Highlighted border on focus */
     outline: none;
 }
 
@@ -102,7 +102,7 @@ input[type="email"]:focus, input[type="password"]:focus {
 button[type="submit"] {
     width: 100%;
     padding: 14px;
-    background-color: #007b8f;
+    background-color: #007bff; /* Orange background for button */
     color: white;
     border: none;
     border-radius: 5px;
@@ -113,8 +113,8 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #00677b;
-    transform: scale(1.02);
+    background-color: #014c9c; /* Darker orange hover effect */
+    transform: scale(1.02); /* Slight scale on hover */
 }
 
 button[type="submit"]:active {
@@ -126,7 +126,7 @@ button:focus {
 }
 
 .form-container h2 {
-    color: #444;
+    color: #444; /* Neutral gray for header */
 }
 
 @media (max-width: 400px) {

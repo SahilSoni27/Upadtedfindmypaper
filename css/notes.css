@@ -1,0 +1,89 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6; /* Same neutral background */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Notes Container */
+.notes-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto; /* Centers the container */
+    padding: 30px 40px; /* Spacious padding */
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.notes-container h1 {
+    font-size: 2.5rem;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.notes-container .coming-soon-message {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: #666;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #222;
+    color: #ccc;
+    padding: 15px 20px;
+    text-align: center;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+footer a {
+    color: #ff9800;
+    text-decoration: none;
+    margin: 0 8px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .notes-container {
+        padding: 20px 30px;
+    }
+
+    .notes-container h1 {
+        font-size: 2rem;
+    }
+
+    .notes-container .coming-soon-message {
+        font-size: 1rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+}
