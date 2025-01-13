@@ -49,7 +49,7 @@ $userEmail = $_SESSION['user_email'];
     <h3>Menu</h3>
     <ul>
         <li><a href="home.php">Home</a></li>
-        <li><a href="index.php">Previous Papers</a></li>
+        <li><a href="index.php">Past Papers</a></li>
         <li><a href="notes.php">Notes</a></li>
         <li><a href="contactus.php">Contact Us</a></li>
     </ul>

@@ -27,9 +27,9 @@ if ($college && $branch && $year && $present_year && $type) {
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo '<div class="paper-item">';
-            echo '<a href="' . $row['link'] . '" target="_blank">' . $row['subject'] . '</a>';
-            echo '</div>';
+            echo '<a href="' . $row['link'] . '" target="_blank">';
+            echo '<div class="paper-item"><p>' . $row['subject'] . '</p></div>';
+            echo '</a>';
         }
     } else {
         echo '<p>No papers found for the selected filters.</p>';
