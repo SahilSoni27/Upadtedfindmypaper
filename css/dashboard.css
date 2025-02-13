@@ -78,7 +78,7 @@ body {
 .page {
     padding: 20px;
     flex-grow: 1; /* Allows the page content to take the remaining space */
-    background-color: #fff;
+    background-color: #eaf2f8;
     overflow: auto; /* Ensure the content is scrollable if it overflows */
 }
 
@@ -109,7 +109,7 @@ h1 {
     justify-content: center; /* Center content vertically */
     align-items: center; /* Center content horizontally */
     position: relative;
-    background-color: #ffffff;
+    background-color: white;
     padding: 20px;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
@@ -156,7 +156,10 @@ h1 {
     line-height: 1.6;
     margin: 0;
     text-align: center; /* Ensure text is centered */
+    text-decoration: none;
 }
+
+
 
 .paper-item:hover h4 {
     color: #007bff; /* Hover color for consistency */

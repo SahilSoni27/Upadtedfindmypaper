@@ -1,129 +1,342 @@
+<?php
+session_start();
+include 'db_connection.php';  // Include the database connection
+
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'];
+
+// Get the current user's email (if logged in)
+$userEmail = $isLoggedIn ? $_SESSION['user_email'] : null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <title>FindMyPaper</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #00274d;
+            padding: 15px 30px;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .brand {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .navbar .brand:hover {
+            color: #1e90ff;
+        }
+
+        .navbar .nav-button {
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .navbar .nav-button:hover {
+            background-color: #fff;
+            color: #1e90ff;
+            transform: scale(1.05);
+        }
+        
+
+        /* Hero Section */
+        .hero {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 30px;
+            background-color: #eaf2f8;
+        }
+
+        .hero-text {
+            max-width: 60%;
+        }
+
+        .hero-text h1 {
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #00274d;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 1.2em;
+            margin: 20px 0;
+            color: #444;
+            line-height: 1.6;
+        }
+        .hero-text .nav-button{
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .hero-text .nav-button:hover {
+            background-color: #fff;
+            color: #1e90ff;
+            transform: scale(1.05);
+        }
+
+        .hero img {
+            max-width: 35%;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .hero video {
+            max-width: 35%;
+            max-height: 356px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero .nav-button {
+            margin-top: 20px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 40px 20px;
+            background-color: #fff;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2em;
+            color: #00274d;
+            margin-bottom: 30px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature i {
+            font-size: 50px;
+            color: #1e90ff;
+        }
+
+        .feature h3 {
+            font-size: 1.4em;
+            margin: 15px 0;
+            color: #00274d;
+        }
+
+        .feature p {
+            color: #555;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1e1e1e;
+            color: #ccc;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #1e90ff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .hero img {
+                max-width: 100%;
+                margin-top: 20px;
+            }
+            .hero video{
+                max-width: 100%;
+                margin-top: 20px;
+            }
+        }
+
+        .profile-icon {
+            cursor: pointer;
+            position: relative;
+        }
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background-color: #ffffff;
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1001;
+            min-width: 200px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .profile-dropdown a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            font-size: 1em;
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1px solid #f4f4f4;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .profile-dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #f4f4f4;
+            color: #4682B4;
+        }
+    </style>
 </head>
-
 <body>
-
-    <?php include('navbar.php'); ?>
-
-    <div class="container-wrapper">
-        <!-- Sliding Sidebar -->
-        <div class="slide-sidebar" id="sidebar">
-            <h3>Filters</h3>
-            <div class="expandable-section">
-                <div class="expandable-header" onclick="toggleSection('year-options')">Year</div>
-                <div id="year-options" class="radio-options">
-                    <!-- Year options will be populated here dynamically -->
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="brand">FindMyPaper</a>
+        <div class="icons">
+        <?php if ($isLoggedIn): ?>
+            <!-- Show profile icon and dropdown if logged in -->
+            <div class="profile-icon" onclick="toggleDropdown()">
+                <img src="img/user.png" alt="Profile Icon" class="rounded-circle" width="30" height="30">
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="profile.php">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="logout.php">Logout</a>
                 </div>
             </div>
-        </div>
-
-        <div class="page">
-            <div class="container">
-                <h1>Welcome to the Student Dashboard</h1>
-                <p>Here you can access previous year papers.</p>
-            </div>
-
-            <!-- Display Papers List -->
-            <div id="papers-list">
-                <!-- List of papers will be dynamically populated here -->
-            </div>
-        </div>
+        <?php else: ?>
+            <!-- Show login button if not logged in -->
+            <a href="login_signup.php" class="nav-button">Login</a>
+        <?php endif; ?>
     </div>
+        
+    </nav>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Find Your Study Materials with Ease</h1>
+            <p>Access curated notes, previous year papers, and study guides tailored to your academic needs. Join our platform to elevate your learning experience!</p>
+            <a href="dashboard.php" class="nav-button">Past Papers</a>
+        </div>
+        
+        <!-- <video autoplay loop muted src="css/findmypaper.mp4">FindMyPaper</video> -->
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Why Choose Us?</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <i class="material-icons">library_books</i>
+                <h3>Extensive University Papers</h3>
+                <p>Access a wide collection of past papers from various universities.</p>
+            </div>
+            <div class="feature">
+                <i class="material-icons">group</i>
+                <h3>Growing Resource Hub</h3>
+                <p>Currently offering university papers, with plans to add college notes soon.</p>
+            </div>
+            <div class="feature">
+                <i class="material-icons">insights</i>
+                <h3>Future Personalization</h3>
+                <p>Tailored academic recommendations coming soon!</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 FindMyPaper. All rights reserved. | 
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms of Service</a> |
+            <a href="contactus.php">Contact Us</a>
+        </p>
+    </footer>
+
     <script>
-        function showExamOptions(yearOptions) {
-            // Toggle the semester options based on selected year
-            document.querySelectorAll('.exam-options').forEach(function (element) {
-                element.style.display = 'none';
-            });
-            document.getElementById(yearOptions).style.display = 'block';
+        function toggleDropdown(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
-
-        function fetchPapers() {
-            const college = "<?php echo $_SESSION['college']; ?>"; // Get selected college from session
-            const branch = "<?php echo $_SESSION['branch']; ?>"; // Get selected branch from session
-            const presentYear = "<?php echo $_SESSION['present_year']; ?>"; // Get present year from session
-            const year = $("input[name='year']:checked").val(); // Get selected year
-            const semester = $("input[name='semester']:checked").val(); // Get selected semester (type)
-
-            // Validate inputs
-            if (!year || !semester) {
-                // alert("Please select both year and semester.");
-                return;
-            }
-
-            // Determine type (Mid Sem or End Sem)
-            let type = "";
-            if (semester.includes("mid-sem")) {
-                type = "Mid Sem";
-            } else if (semester.includes("end-sem")) {
-                type = "End Sem";
-            }
-
-            // Perform AJAX request
-            $.ajax({
-                url: 'fetch_papers.php', // Backend endpoint
-                method: 'GET',
-                data: {
-                    college: college,
-                    branch: branch,
-                    year: year,
-                    present_year: presentYear, // Passing the present year
-                    type: type
-                },
-                success: function (response) {
-                    // Populate papers dynamically
-                    $('#papers-list').html(response);
-                },
-                error: function () {
-                    alert('Error fetching papers. Please try again later.');
-                }
-            });
-        }
-
-        function fetchSidebarOptions() {
-            const college = "<?php echo $_SESSION['college']; ?>";
-            const branch = "<?php echo $_SESSION['branch']; ?>";
-            const presentYear = "<?php echo $_SESSION['present_year']; ?>";
-
-            $.ajax({
-                url: 'fetch_sidebar_options.php',
-                method: 'GET',
-                data: {
-                    college: college,
-                    branch: branch,
-                    present_year: presentYear
-                },
-                success: function (response) {
-                    $('#year-options').html(response);
-                },
-                error: function () {
-                    alert('Error fetching sidebar options. Please try again later.');
-                }
-            });
-        }
-
-        $(document).ready(function() {
-            fetchSidebarOptions();
-        });
-
-        // Trigger fetchPapers when semester or year is selected
-        $(document).on('change', "input[name='semester']", fetchPapers);
-        $(document).on('change', "input[name='year']", fetchPapers);
-
     </script>
-
-    <?php include('footer.php'); ?>
-
 </body>
-
 </html>
+

@@ -5,7 +5,7 @@ include 'db_connection.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']) {
-    header("Location: login_signup.html");
+    header("Location: login_signup.php");
     exit;
 }
 
