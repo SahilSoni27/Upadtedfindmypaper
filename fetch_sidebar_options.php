@@ -1,5 +1,5 @@
 <?php
-include 'auth_check.php';
+
 session_start();
 include 'db_connection.php';
 

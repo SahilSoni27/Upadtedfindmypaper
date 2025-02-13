@@ -24,7 +24,7 @@ if (isset($_POST['signup'])) {
 
     if ($result->num_rows > 0) {
         // If the email is already taken, redirect with an error message
-        header("Location: login_signup.html?error=Email already taken. Please choose a different email.");
+        header("Location: login_signup.php?error=Email already taken. Please choose a different email.");
         exit;
     } else {
         // If the email is unique, insert the new user into the database
@@ -32,9 +32,9 @@ if (isset($_POST['signup'])) {
         if ($conn->query($sql) === TRUE) {
             // Set a session variable to pass the user ID for the next step
             $_SESSION['user_id'] = $conn->insert_id;
-            header("Location: login_signup.html?message=Signup successful. You can now log in.");
+            header("Location: login_signup.php?message=Signup successful. You can now log in.");
         } else {
-            header("Location: login_signup.html?error=Error: " . $conn->error);
+            header("Location: login_signup.php?error=Error: " . $conn->error);
         }
         exit;
     }
@@ -64,10 +64,10 @@ if (isset($_POST['login'])) {
             }
             exit;
         } else {
-            header("Location: login_signup.html?error=Invalid email or password.");
+            header("Location: login_signup.php?error=Invalid email or password.");
         }
     } else {
-        header("Location: login_signup.html?error=Invalid email or password.");
+        header("Location: login_signup.php?error=Invalid email or password.");
     }
     exit;
 }

@@ -1,16 +1,12 @@
 <?php
-include 'auth_check.php';
 session_start();
 include 'db_connection.php';  // Include the database connection
 
 // Check if the user is logged in
-if (!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']) {
-    header("Location: login_signup.html");
-    exit;
-}
+$isLoggedIn = isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'];
 
-// Get the current user's email
-$userEmail = $_SESSION['user_email'];
+// Get the current user's email (if logged in)
+$userEmail = $isLoggedIn ? $_SESSION['user_email'] : null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,21 +22,27 @@ $userEmail = $_SESSION['user_email'];
 <!-- Navbar -->
 <div class="navbar">
     <div class="left-section">
-        <div class="menu-icon" onclick="toggleSidebar()">☰</div>
+        <div class="menu-icon" onclick="toggleSidebar()" style="color: white;">☰</div>
         <div class="brand">FindMyPaper</div>
         <div class="separator"></div>   
     </div>
 
-    <!-- Profile and Location Icons -->
+    <!-- Profile and Login Icons -->
     <div class="icons">
-        <div class="profile-icon" onclick="toggleDropdown()">
-            <img src="assests/images/profileicon.png" alt="Profile Icon" class="rounded-circle" width="30" height="30">
-            <div class="profile-dropdown" id="profileDropdown">
-                <a href="profile.php">Profile</a>
-                <div class="dropdown-divider"></div>
-                <a href="logout.php">Logout</a>
+        <?php if ($isLoggedIn): ?>
+            <!-- Show profile icon and dropdown if logged in -->
+            <div class="profile-icon" onclick="toggleDropdown()">
+                <img src="img/user.png" alt="Profile Icon" class="rounded-circle" width="30" height="30">
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="profile.php">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="logout.php">Logout</a>
+                </div>
             </div>
-        </div>
+        <?php else: ?>
+            <!-- Show login button if not logged in -->
+            <a href="login_signup.php" class="login-button">Login</a>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -48,8 +50,8 @@ $userEmail = $_SESSION['user_email'];
 <div class="sidebar" id="sidebar">
     <h3>Menu</h3>
     <ul>
-        <li><a href="home.php">Home</a></li>
-        <li><a href="index.php">Previous Papers</a></li>
+        <li><a href="index.php">Home</a></li>
+        <li><a href="dashboard.php">Past Papers</a></li>
         <li><a href="notes.php">Notes</a></li>
         <li><a href="contactus.php">Contact Us</a></li>
     </ul>
@@ -64,7 +66,6 @@ $userEmail = $_SESSION['user_email'];
 
     // Function to toggle profile dropdown
     function toggleDropdown(event) {
-        // event.stopPropagation(); // Prevent the event from bubbling up to the window onclick
         const dropdown = document.getElementById('profileDropdown');
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
